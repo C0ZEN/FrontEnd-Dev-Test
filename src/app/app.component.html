@@ -1,0 +1,125 @@
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="assets/logo.png" width="30" height="30" alt="Dualsun logo">
+        Dualsun
+      </a>
+    </div>
+  </nav>
+</header>
+<main role="main">
+  <section class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-header">
+          <h1 id="typography">Procès verbal de mise en service</h1>
+        </div>
+      </div>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <p class="h2">Entreprise</p>
+      <div class="row" formGroupName="company_attributes">
+        <div class="form-group col-md-6">
+          <label for="company-name">Nom</label>
+          <input formControlName="name" appFormValidation type="text" class="form-control" id="company-name">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="siren">SIREN</label>
+          <input formControlName="siren" appFormValidation type="text" class="form-control" id="siren">
+        </div>
+      </div>
+      <p class="h2">Client</p>
+      <div class="row" formGroupName="customer_attributes">
+        <div class="form-group col-md-4">
+          <label for="name">Nom</label>
+          <input formControlName="name" appFormValidation type="text" class="form-control" id="name">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="email">Email</label>
+          <input formControlName="email" appFormValidation type="Email" class="form-control" id="email">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="telephone">Téléphone</label>
+          <input formControlName="telephone" appFormValidation type="tel" class="form-control" id="telephone">
+        </div>
+      </div>
+      <p class="h2">Installation</p>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label for="installation-date">Date d'installation</label>
+          <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd" id="installation-date"
+                   name="dp" appFormValidation formControlName="installation_date" ngbDatepicker #datepicker="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" appFormValidation (click)="datepicker.toggle()" type="button"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="h3">Adresse</p>
+      <div class="row" formGroupName="address">
+        <div class="form-group col-md-4">
+          <label for="street">Rue</label>
+          <input formControlName="street" appFormValidation type="text" class="form-control" id="street">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="city">Ville</label>
+          <input formControlName="city" appFormValidation type="text" class="form-control" id="city">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="zip-code">Code postal</label>
+          <input formControlName="zip_code" appFormValidation type="text" class="form-control" id="zip-code">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="country">Pays</label>
+          <input formControlName="country" appFormValidation type="text" class="form-control" id="country">
+        </div>
+      </div>
+      <p class="h3">Panneaux</p>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label for="panel-count">Nombre de panneaux</label>
+          <input formControlName="panelCount"
+                 appFormValidation
+                 type="number"
+                 class="form-control"
+                 id="panel-count"
+                 [min]="1"
+                 (ngModelChange)="synchronizePanelsWithPanelCount()">
+        </div>
+      </div>
+      <ng-container formArrayName="solar_panels_attributes">
+        <ng-container *ngFor="let panelForm of panels.controls; let i = index">
+          <div class="row" [formGroupName]="i">
+            <div class="form-group col-md-4">
+              <label [for]="'type-of-'+i">Type</label>
+              <select class="custom-select" formControlName="type_of" [id]="'type-of-'+i">
+                <option [ngValue]="0">Photovoltaïque</option>
+                <option [ngValue]="1">Hybride</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label [for]="'serial-number-'+i">ID</label>
+              <input formControlName="serial_number" appFormValidation type="text" class="form-control" [id]="'serial-number-'+i">
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+      <button type="submit"
+              class="btn btn-primary"
+              [disabled]="form.invalid">
+        Valider
+      </button>
+    </form>
+  </section>
+</main>
+<footer class="container-fluid mt-auto bg-light">
+  <hr>
+  <p class="container text-muted text-center">
+    <a href="https://dualsun.com/">DualSun</a>,
+    <a href="tel:+33413415370">+33 4 13 41 53 70</a>,
+    <a href="mailto:contact@dualsun.fr">contact@dualsun.fr</a>
+  </p>
+</footer>
+
